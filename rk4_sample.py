@@ -35,12 +35,13 @@ def rk4(func, t, h, y, *x):
 
 導関数の書き方
 def func(t, y, *state):
+    func:自分で好きな関数名をつけられます
     t:時刻変数(変数の文字はtで無くても良い) 
     y:出力変数(変数の文字はyで無くても良い)
     *state:その他の必要変数(引数の数は可変可能))
 
 #関数サンプル
-def func(t, y, *state):
+def vdot(t, y, *state):
     s1=state[0]
     s2=state[1]
     return t+y+s1+s2
