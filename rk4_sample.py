@@ -12,6 +12,16 @@
 #%matplotlib inline
 import matplotlib.pyplot as plt
 
+'''
+def rk4(func, t, h, y, *x)
+ルンゲ・クッタ法を一回分計算する関数
+    引数リスト
+    func:導関数
+    t：現在時刻を表す変数
+    h：刻み幅
+    y：出力変数（求めたい値）
+    *x:引数の数が可変する事に対応する、その他の必要変数
+'''
 def rk4(func, t, h, y, *x):
     k1=h*func(t, y, *x)
     k2=h*func(t+0.5*h, y+0.5*k1, *x)
