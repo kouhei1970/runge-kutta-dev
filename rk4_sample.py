@@ -21,6 +21,7 @@ def rk4(func, t, h, y, *x)
     h：刻み幅
     y：出力変数（求めたい値）
     *x:引数の数が可変する事に対応する、その他の必要変数
+※この関数では時刻は更新されないため、これとは別に時間更新をする必要があります。
 '''
 def rk4(func, t, h, y, *x):
     k1=h*func(t, y, *x)
@@ -61,6 +62,9 @@ def vdot(t, v, *state):
 def xdot(t, x):
     return v
 
+#ここからメイン
+
+#初期化
 t=0.0
 v=0.0
 x=0.0
@@ -69,6 +73,8 @@ h=0.01
 V=[]
 X=[]
 T=[]
+
+#求解ループ
 for n in range(500):
     V.append(v)
     X.append(x)
