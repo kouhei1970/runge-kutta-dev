@@ -7,5 +7,7 @@ Gitがインストールされている環境であれば
 適当なディレクトリに移動して以下のようにすると、プログラムを
 
 '''
-git clone 
+git clone https://github.com/kouhei1970/runge-kutta-dev.git
+cd runge-kutta-dev
+python 
 '''
