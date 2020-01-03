@@ -58,7 +58,8 @@ def vdot(t, v, *state):
     return (-D*v -K*x +u)/M
 
 #バネマスダンパ系位置の導関数
-def xdot(t, x):
+def xdot(t, x, *state):
+    v=state[0]
     return v
 
 #ここからメイン
@@ -78,12 +79,12 @@ for n in range(500):
     V.append(v)
     X.append(x)
     T.append(t)
-    v=rk4(vdot, t, h, v, x, u)
-    x=rk4(xdot, t, h, x)
+    vold=v
+    xold=x
+    v=rk4(vdot, t, h, vold, xold, u)
+    x=rk4(xdot, t, h, xold, vold)
     t=t+h
 
 plt.plot(T, X)
 plt.grid()
 plt.show()
-
-
