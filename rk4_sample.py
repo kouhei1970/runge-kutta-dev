@@ -63,28 +63,32 @@ def xdot(t, x, *state):
     return v
 
 #ここからメイン
+def main():
+    #初期化
+    t=0.0
+    v=0.0
+    x=0.0
+    u=1.0
+    h=0.01
+    V=[]
+    X=[]
+    T=[]
 
-#初期化
-t=0.0
-v=0.0
-x=0.0
-u=1.0
-h=0.01
-V=[]
-X=[]
-T=[]
+    #求解ループ
+    for n in range(500):
+        V.append(v)
+        X.append(x)
+        T.append(t)
+        vold=v
+        xold=x
+        v=rk4(vdot, t, h, vold, xold, u)
+        x=rk4(xdot, t, h, xold, vold)
+        t=t+h
 
-#求解ループ
-for n in range(500):
-    V.append(v)
-    X.append(x)
-    T.append(t)
-    vold=v
-    xold=x
-    v=rk4(vdot, t, h, vold, xold, u)
-    x=rk4(xdot, t, h, xold, vold)
-    t=t+h
+    plt.plot(T, X)
+    plt.grid()
+    plt.show()
 
-plt.plot(T, X)
-plt.grid()
-plt.show()
+if __name__=='__main__':
+    main()
+
