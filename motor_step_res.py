@@ -56,7 +56,7 @@ def main():
     omega=0.0
     i=0.0
     e=3.0
-    h=1.0e-5
+    h=1.0e-7
     Omega=[]
     I=[]
     T=[]
