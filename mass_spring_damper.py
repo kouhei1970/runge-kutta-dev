@@ -86,13 +86,13 @@ def main():
     v=0.0
     x=0.0
     u=1.0
-    h=0.001
+    h=0.01
     V=[]
     X=[]
     T=[]
 
     #求解ループ
-    for n in range(5000):
+    for n in range(500):
         V.append(v)
         X.append(x)
         T.append(t)
@@ -121,8 +121,10 @@ def main():
     y = SecondOrderDelaySysStepRes(zeta, omega, Kg, t)
 
     plt.figure(figsize=(5, 3))
-    plt.plot(T, X)
-    plt.plot(t, y)
+    plt.plot(T, X, label='rk4')
+    plt.plot(t, y, label='Analytic')
+    plt.title('h={:.3f}'.format(h))
+    plt.legend()
     plt.grid()
     plt.show()
     
