@@ -43,7 +43,7 @@ def idot(t, i, omega, e):
 
 def omegadot(t, omega, i , T_L):
     K=1.98e-3
-    D=1.226e-7 #現時点で不明なので後で入れる
+    D=1.226e-7
     J=0.59e-7
     return (K*i - D*omega - T_L)/J
 
