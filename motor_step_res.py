@@ -75,6 +75,8 @@ def main():
         t=t+h
 
     plt.plot(T, Omega)
+    plt.xlabel('Time(s)')
+    plt.ylabel('omega(rad/s)')
     plt.grid()
     plt.show()
 
