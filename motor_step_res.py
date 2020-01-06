@@ -47,6 +47,16 @@ def omegadot(t, omega, i , T_L):
     J=0.59e-7
     return (K*i - D*omega - T_L)/J
 
+'''
+SecondOrderDelaySysStepRes(zeta, omega, Kg, t)
+２次振動系のステップ応答の解析解を計算する
+パラメータ（引数）
+zeta:減衰係数
+omega:自然各周波数
+Kg:ゲイン
+t:時間配列（計算時刻のnumpy配列）
+'''
+
 def SecondOrderDelaySysStepRes(zeta, omega, Kg, t):
 
     if zeta > 1:
@@ -65,6 +75,26 @@ def SecondOrderDelaySysStepRes(zeta, omega, Kg, t):
         y=Kg*(1 - np.exp(-omega*t)*(omega*t  + 1 ))
 
     return y
+'''
+
+２次振動系の係数からゲイン、減衰係数、自然各周波数を求める
+
+         D
+G(s)=---------
+     As^2+Bs+C
+から
+              K omega^2
+G(s)=-----------------------------
+     s^2 + 2 zeta omega s +omega^2
+
+K(ゲイン),zeta(減衰係数),omega（自然各周波数）を計算する。
+     
+'''
+def find2ndOrderDelaySysParameter(A,B,C,D):
+    K=D/C
+    zeta=B/2/np.sqrt(A*C)
+    omega=np.sqrt(C/A)
+    return zeta, omega, K
 
 
 #ここからメイン
@@ -74,11 +104,11 @@ def main():
     omega=0.0
     i=0.0
     e=3.0
-    h=1.0e-7
+    h=1.0e-6
     Omega=[]
     I=[]
     T=[]
-    endtime=0.15
+    endtime=0.02
     Num=int(endtime/h)+1
 
     #求解ループ
@@ -91,13 +121,34 @@ def main():
         i=rk4(idot, t, h, iold, omegaold, e)
         omega=rk4(omegadot, t, h, omegaold, iold, 0)
         t=t+h
-
-    plt.plot(T, Omega)
+    #解析解計算
+    #モータのパラメータ
+    R=1.07
+    K=1.98e-3
+    L=17e-6   
+    D=1.226e-7
+    J=0.59e-7
+    
+    A=J*L
+    B=D*L + J*R
+    C=D*R + K**2
+    #print(A,B,C) #２次振動系ステップ応答解析解関数がオーバーフローするのでデバグ用に追加
+    
+    #２次振動系のパラメータ計算
+    zeta, omega_n, Kg = find2ndOrderDelaySysParameter(A,B,C,K*3)
+    #print(zeta, omega_n, Kg) #上記関数がオーバーフローしたのでデバグ用に追加
+    #計算時刻配列作成
+    t=np.linspace(0, endtime, 1000)
+    #解析解計算
+    y=SecondOrderDelaySysStepRes(zeta, omega_n, Kg, t)
+    
+    plt.plot(T, Omega, label='Numerical')
+    plt.plot(t, y, label='Analytical')
     plt.xlabel('Time(s)')
     plt.ylabel('omega(rad/s)')
     plt.grid()
+    plt.legend()
     plt.show()
 
 if __name__=='__main__':
     main()
-
