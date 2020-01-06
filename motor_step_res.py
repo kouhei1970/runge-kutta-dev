@@ -47,6 +47,19 @@ def omegadot(t, omega, i , T_L):
     J=0.59e-7
     return (K*i - D*omega - T_L)/J
 
+'''
+
+SecondOrderDelaySysStepRes(zeta, omega, Kg, t)
+
+２次振動系のステップ応答の解析解を計算する
+パラメータ（引数）
+zeta:減衰係数
+omega:自然各周波数
+Kg:ゲイン
+t:時間配列（計算時刻のnumpy配列）
+
+'''
+
 def SecondOrderDelaySysStepRes(zeta, omega, Kg, t):
 
     if zeta > 1:
