@@ -47,6 +47,24 @@ def omegadot(t, omega, i , T_L):
     J=0.59e-7
     return (K*i - D*omega - T_L)/J
 
+def SecondOrderDelaySysStepRes(zeta, omega, Kg, t):
+
+    if zeta > 1:
+
+        y=Kg * (1 - np.exp(-zeta*omega*t) * 
+                 (    (zeta + np.sqrt(zeta**2 - 1) )*np.exp( omega*np.sqrt(zeta**2 - 1)*t) 
+                    - (zeta - np.sqrt(zeta**2 - 1) )*np.exp(-omega*np.sqrt(zeta**2 - 1)*t)
+                 ) /2/np.sqrt(zeta**2 - 1)
+               )
+    elif zeta < 1:
+        phi=np.arctan2(np.sqrt(1-zeta**2), zeta)
+        y=Kg * ( 1 - np.exp(-zeta*omega*t) * np.sin(omega*np.sqrt(1 - zeta**2)*t + phi)
+                / np.sqrt(1 - zeta**2)
+               )
+    else:
+        y=Kg*(1 - np.exp(-omega*t)*(omega*t  + 1 ))
+
+    return y
 
 
 #ここからメイン
